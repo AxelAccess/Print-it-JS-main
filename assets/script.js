@@ -76,11 +76,10 @@ const slides = [
 
 let dotRadio = document.querySelectorAll(".dot")
 let image = document.querySelector("#banner img")
-let tagLine = document.querySelector("#banner  p")
+let tagLine = document.querySelector("#banner p")
 dotRadio.forEach((radio , index) => {
     radio.addEventListener("change", () => {
-        if (radio.checked) {
-			imageIndex = index;
+        if (radio.checked) {			
 			image.src = `./assets/images/slideshow/${slides[radio.value -1].image}`
 			//tagLine.innerHTML = slides[imageIndex].tagLine
 			newIndex()
@@ -94,16 +93,20 @@ for(let i = 0; i< slides.length; i++){
 			dot.classList.remove("dot_selected")
 		})
 		dotRadio[i].classList.add("dot_selected")
-		imageIndex = i;
+		imageIndex = i
 		image.src = `./assets/images/slideshow/${slides[i].image}`
-		tagLine.innerHTML = slides[imageIndex].tagLine
 		newIndex()
 	})
 }
 let imageIndex = 0
+newIndex()
 let leftArrow=document.querySelector(".arrow_left")
     leftArrow.addEventListener("click", () => {
-        imageIndex = (imageIndex - 1 + slides.length) % slides.length;
+       // imageIndex = (imageIndex - 1 + slides.length) % slides.length
+	    imageIndex=imageIndex -1
+		if(imageIndex < 0 ){
+			imageIndex = slides.length-1
+		}
     	image.src = `./assets/images/slideshow/${slides[imageIndex].image}`
 		//dotRadio.forEach((dot) =>{
 		//	dot.classList.remove("dot_selected")
@@ -115,7 +118,11 @@ let leftArrow=document.querySelector(".arrow_left")
 
 let rightArrow=document.querySelector(".arrow_right")
 	rightArrow.addEventListener("click", () => {
-		imageIndex = (imageIndex + 1 + slides.length) % slides.length;
+		//imageIndex = (imageIndex + 1 + slides.length) % slides.length
+		imageIndex=imageIndex +1
+		if(imageIndex > (slides.length-1) ){
+			imageIndex = 0
+		}
 		image.src = `./assets/images/slideshow/${slides[imageIndex].image}`
 		newIndex()
 		//dotRadio.forEach((dot) =>{
