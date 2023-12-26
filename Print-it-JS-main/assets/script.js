@@ -17,23 +17,23 @@ const slides = [
 	}
 ]
 
-let leftArrow=document.querySelector(".arrow_left")
-	console.log(leftArrow)
+//let leftArrow=document.querySelector(".arrow_left")
+//	console.log(leftArrow)
 
-let rightArrow=document.querySelector(".arrow_right")
-	console.log(rightArrow)
+//let rightArrow=document.querySelector(".arrow_right")
+//	console.log(rightArrow)
 
 
 
-document.addEventListener("DOMContentLoaded", ()=>{
-	console.log("coucou3")
-	leftArrow.addEventListener("click",()=>{
-		alert("clickgauche")
-	})	
-	rightArrow.addEventListener("click",()=>{
-		alert("clickdroit")
-	})
-})
+//document.addEventListener("DOMContentLoaded", ()=>{
+//	console.log("coucou3")
+//	leftArrow.addEventListener("click",()=>{
+//		alert("clickgauche")
+//	})	
+//	rightArrow.addEventListener("click",()=>{
+//		alert("clickdroit")
+//	})
+//})
 
 
 
@@ -73,12 +73,62 @@ document.addEventListener("DOMContentLoaded", ()=>{
 //	})
 //}
 
-let dotRadio = document.querySelectorAll("input[type=radio]");
-let image = document.querySelector("#banner img");
-dotRadio.forEach((radio) => {
+
+let dotRadio = document.querySelectorAll(".dot")
+let image = document.querySelector("#banner img")
+let tagLine = document.querySelector("#banner  p")
+dotRadio.forEach((radio , index) => {
     radio.addEventListener("change", () => {
         if (radio.checked) {
-            image.src = `./assets/images/slideshow/slide${radio.value}.jpg`;
+			imageIndex = index;
+			image.src = `./assets/images/slideshow/${slides[radio.value -1].image}`
+			//tagLine.innerHTML = slides[imageIndex].tagLine
+			newIndex()
         }
-    });
-});
+    })
+})
+
+for(let i = 0; i< slides.length; i++){
+	dotRadio[i].addEventListener("click", () =>{
+		dotRadio.forEach((dot) =>{
+			dot.classList.remove("dot_selected")
+		})
+		dotRadio[i].classList.add("dot_selected")
+		imageIndex = i;
+		image.src = `./assets/images/slideshow/${slides[i].image}`
+		tagLine.innerHTML = slides[imageIndex].tagLine
+		newIndex()
+	})
+}
+let imageIndex = 0
+let leftArrow=document.querySelector(".arrow_left")
+    leftArrow.addEventListener("click", () => {
+        imageIndex = (imageIndex - 1 + slides.length) % slides.length;
+    	image.src = `./assets/images/slideshow/${slides[imageIndex].image}`
+		//dotRadio.forEach((dot) =>{
+		//	dot.classList.remove("dot_selected")
+		//})
+		//dotRadio[i].classList.add("dot_selected")
+		newIndex()
+
+})
+
+let rightArrow=document.querySelector(".arrow_right")
+	rightArrow.addEventListener("click", () => {
+		imageIndex = (imageIndex + 1 + slides.length) % slides.length;
+		image.src = `./assets/images/slideshow/${slides[imageIndex].image}`
+		newIndex()
+		//dotRadio.forEach((dot) =>{
+		//	dot.classList.remove("dot_selected")
+		//})
+		//dotRadio[i].classList.add("dot_selected")
+})
+
+function newIndex() {
+	dotRadio.forEach((dot) =>{
+		dot.classList.remove("dot_selected")
+	})
+	dotRadio[imageIndex].classList.add("dot_selected")
+	image.src = `./assets/images/slideshow/${slides[imageIndex].image}`
+	tagLine.innerHTML = slides[imageIndex].tagLine
+}
